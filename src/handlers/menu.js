@@ -39,6 +39,7 @@ async function sendMainMenu(phone, member = null) {
           rows: [
             { id: "menu_renovar", title: "🔄 Renovar mensualidad", description: "Pagar y renovar tu cuota" },
             { id: "menu_estado", title: "📊 Ver mi estado", description: "Cuota, pagos y datos" },
+            { id: "menu_cambiar_plan", title: "🔁 Cambiar plan", description: "Cambiar tu tipo de suscripción" },
             { id: "menu_baja", title: "❌ Darme de baja", description: "Cancelar mi suscripción" },
           ],
         },
@@ -66,6 +67,9 @@ async function handleMenuOption(phone, option, member) {
 
     case "menu_renovar":
       return require("./payments").startRenewal(phone, member);
+
+    case "menu_cambiar_plan":
+      return require("./changePlan").startChangePlan(phone, member);
 
     case "menu_baja":
       return require("./cancellation").startCancellation(phone, member);

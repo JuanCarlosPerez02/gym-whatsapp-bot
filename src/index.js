@@ -3,6 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const { handleIncomingMessage } = require("./handlers/router");
 const { constructEvent, handleCheckoutCompleted } = require("./services/stripe");
+const path = require("path");
+const adminRouter = require("./routes/admin");
 
 const app = express();
 app.use(cors());
@@ -47,6 +49,9 @@ app.post("/stripe/webhook", express.raw({ type: "application/json" }), async (re
 
 // Parser JSON para el resto de rutas
 app.use(express.json());
+
+// ─── ADMIN PANEL
+app.use("/admin", adminRouter);
 
 // ─── HEALTH CHECK ──────────────────────────────────────────────────────────
 app.get("/", (req, res) => {
@@ -130,5 +135,6 @@ app.listen(PORT, () => {
 💳 Stripe: ${process.env.STRIPE_SECRET_KEY ? "✅ configurado" : "⚠️ no configurado (modo manual)"}
 🔗 Webhook WhatsApp: /webhook
 🔗 Webhook Stripe:   /stripe/webhook
+🔗 Panel admin:      /admin
   `);
 });
